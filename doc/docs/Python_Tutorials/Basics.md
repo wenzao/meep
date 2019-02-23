@@ -394,13 +394,9 @@ flux_freqs = mp.get_flux_freqs(refl)
 With the flux data, we are ready to compute and plot the reflectance and transmittance. The reflectance is the reflected flux divided by the incident flux. We also have to multiply by -1 because all fluxes in Meep are computed in the positive-coordinate direction by default, and we want the flux in the $-x$ direction. The transmittance is the transmitted flux divided by the incident flux. Finally, the scattered loss is simply $1-transmittance-reflectance$. The results are plotted in the accompanying figure.
  
 ```py
-wl = []
-Rs = []
-Ts = []
-for i in range(nfreq):
-    wl = np.append(wl, 1/flux_freqs[i])
-    Rs = np.append(Rs,-bend_refl_flux[i]/straight_tran_flux[i])
-    Ts = np.append(Ts,bend_tran_flux[i]/straight_tran_flux[i])    
+wl = 1/np.asarray(flux_freqs)
+Rs = -np.asarray(bend_refl_flux)/np.asarray(straight_tran_flux)
+Ts = np.asarray(bend_tran_flux)/np.asarray(straight_tran_flux)
 
 if mp.am_master():
     plt.figure()
